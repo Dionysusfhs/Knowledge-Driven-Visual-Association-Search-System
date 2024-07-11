@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像搜索</title>
+
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #3498db, #2ecc71);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .content-container {
+            background: rgba(255, 255, 255, 0.9); /* Add a semi-transparent white background */
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, p {
+            color: #333;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-container">
+        <form action="/" method="post" enctype="multipart/form-data">
+            <h1>图像搜索</h1>
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">搜索</button>
+        </form>
+
+        {% if uploaded_image %}
+            <div>
+                <h2>上传的图像</h2>
+                <img src="{{ url_for('static', filename=uploaded_image) }}" alt="上传的图像">
+            </div>
+        {% endif %}
+
+        {% if related_images %}
+            <div>
+                <h2>相关图像</h2>
+                {% for image_file in related_images %}
+                    <img src="{{ url_for('static', filename=image_file) }}" alt="相关图像">
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
